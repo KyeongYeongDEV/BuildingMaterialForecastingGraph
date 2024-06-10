@@ -1,6 +1,4 @@
-const data = [
-
-   
+const data = [   
     { quarter: '20년 1Q', price: 67.75 },
     { quarter: '20년 2Q', price: 56.10 },
     { quarter: '20년 3Q', price: 51.27 },
