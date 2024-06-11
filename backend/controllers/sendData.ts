@@ -9,15 +9,20 @@ const router = Router();
 
 router.get("/data",(req : Request, res : Response)=>{   
     try{
-        const userMaterial : string = req.body.metarial
+        const userMaterial : string = req.body.meterial
         let data : Metarial[]  = [];
 
         if(userMaterial == "wood"){
             data = woodData;    
         }else if(userMaterial == "steel"){
             data = steelData;
+        }else{
+            throw new Error("존재하지 않는 재료입니다.");
         }
-        res.status(200).send({data : data});
+        res.status(200).send({
+            msg : "Success send data",
+            data : data
+        });
 
     }catch(err ){
         res.status(404).json({ 
