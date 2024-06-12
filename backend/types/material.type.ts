@@ -1,6 +1,6 @@
-type Metarial = {
+type Material = {
     quarter: string,
     price: number
 }
 
-export {Metarial}
+export {Material}

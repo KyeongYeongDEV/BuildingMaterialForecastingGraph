@@ -1,11 +1,36 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 function MaterialSelector() {
   const [selectedMaterial, setSelectedMaterial] = useState('');
+  const [data, setData] = useState(null);
+  const apiUrl = "http://localhost:8080/data";
 
   const handleMaterialChange = (event) => {
     setSelectedMaterial(event.target.value);
+  };
+
+  const handleSearchBtn = async (e) => {
+    e.preventDefault();
+
+    try {
+      console.log(selectedMaterial);
+      const res = await axios.get("/data", {
+        params: {
+          material: selectedMaterial 
+        } 
+      });
+
+      if (res.status === 200) {
+        setData(res.data);
+        console.log('응답 데이터:', data);
+      } else {
+        throw new Error(`요청에 실패했습니다. 상태 코드: ${res.status}`);
+      }
+    } catch (err) {
+      alert(`오류 발생: ${err.message}`);
+    }
   };
 
   return (
@@ -77,7 +102,7 @@ function MaterialSelector() {
 
             <button 
               className="btn btn-primary mt-3" 
-              onClick={() => alert(`선택한 재료: ${selectedMaterial}`)}
+              onClick={handleSearchBtn}
             >
               검색하기
             </button>

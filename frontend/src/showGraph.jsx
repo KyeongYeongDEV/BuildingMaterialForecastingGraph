@@ -1,19 +1,21 @@
 import React from "react";
-import ReactApexChart from "react-apexcharts";
 import data from "./data";
+import ReactApexChart from "react-apexcharts";
 
+// 재료 가격 및 분기 데이터 추출
 const seriesData = data.map(item => item.price);
 const categoriesData = data.map(item => item.quarter);
 
-// 2024년도 이후의 데이터 포인트를 찾기 위한 인덱스
-const thresholdIndex = data.findIndex(item => item.quarter.includes('24년'));
+// 24년도 2분기의 인덱스 찾기
+const quarterIndex24 = categoriesData.findIndex(item => item.includes('24년 2분기'));
 
 // 색상을 설정하는 함수
 const getColor = (index) => {
-  return index < thresholdIndex ? '#008FFB' : '#FF4560'; // 2024년 이전은 파란색, 이후는 빨간색
+  return index < quarterIndex24 ? '#008FFB' : '#FF4560'; // 24년도 2분기 이전은 파란색, 이후는 빨간색
 };
 
 function Chart() {
+  
   return (
     <div>
       <ReactApexChart
@@ -26,14 +28,14 @@ function Chart() {
         ]}
         options={{
           chart: {
-            height: 250,
-            width: 400,
+            height: 350,
+            width: 800,
             zoom: {
               enabled: false,
             },
             toolbar: {
-              show: true
-            }
+              show: true,
+            },
           },
           xaxis: {
             type: "category",
@@ -65,6 +67,23 @@ function Chart() {
             width: 3, // 라인의 두께 설정
             curve: 'smooth', // 라인의 형태를 곡선으로 설정
             colors: categoriesData.map((_, index) => getColor(index)),
+          },
+          annotations: {
+            xaxis: [
+              quarterIndex24 !== -1 && {
+                x: categoriesData[quarterIndex24],
+                borderColor: '#FF4560',
+                label: {
+                  borderColor: '#FF4560',
+                  style: {
+                    color: '#fff',
+                    background: '#FF4560',
+                  },
+                  text: '24년 2분기',
+                  orientation: 'vertical',
+                },
+              },
+            ].filter(Boolean), // 유효한 값만 남기기
           },
         }}
       />

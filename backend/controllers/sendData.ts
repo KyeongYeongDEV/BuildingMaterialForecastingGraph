@@ -4,13 +4,13 @@ import { Request, Response } from "express";
 import woodData from "../models/wood.data"
 import steelData from "../models/steel.data"
 
-import { Metarial } from "../types/material.type";
+import { Material } from "../types/material.type";
 const router = Router();
 
-router.get("/data",(req : Request, res : Response)=>{   
+router.get("/",(req : Request, res : Response)=>{   
     try{
-        const userMaterial : string = req.body.meterial
-        let data : Metarial[]  = [];
+        const userMaterial : string = req.body.material
+        let data : Material[]  = [];
 
         if(userMaterial == "wood"){
             data = woodData;    

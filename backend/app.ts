@@ -17,6 +17,6 @@ app.get("/",(req : Request,res : Response)=>{
     res.send("<h1> main page")
 })
 
-app.get("/data",data);
+app.use("/data",data);
 
 export default app;
